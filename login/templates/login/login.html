@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>METANIT.COM</title>
+	</head>
+	<body>
+		<h2>User form</h2>
+		<form method="post" action="boards/">
+			{% csrf_token %}
+			<p>
+				Name:<br />
+				<input name="name" />
+			</p>
+			<p>
+				Password:<br />
+				<input name="password" />
+			</p>
+			<a href="{% url 'boards' %}" <li>In</li></a>
+		</form>
+	</body>
+</html>
