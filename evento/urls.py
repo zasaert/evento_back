@@ -17,12 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from login import views
-
+from boards.views import CardAPIView
 
 
 urlpatterns = [
 	path('admin/',admin.site.urls),
     path('login/',views.login),
-	path('boards/',include('boards.urls'))	
+	path('boards/',include('boards.urls')),
+	path('api/v1/list/',CardAPIView.as_view()),
+	
 	
 ]

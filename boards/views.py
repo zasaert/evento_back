@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Card
 from .forms import CardForm
+from rest_framework import generics
+from .serializers import CardSerializer
 
 # Create your views here.
 def boards(request):
@@ -9,6 +11,7 @@ def boards(request):
 		form = CardForm(request.POST)
 		if form.is_valid():
 			form.save()
+			return redirect("boards")
 		else:
 			error = 'Форма была неверной'
 
@@ -21,13 +24,10 @@ def boards(request):
 		"error":error
 	}
 
+	return render(request,"boards/boards.html",data)
 
 
-	return render(request,"boards/boards1.html",data)
 
-"""def create_boards(request):
-
-	form = CardForm()
-
-
-	return render(request,"boards/boards.html",{'form':form})"""
+class CardAPIView(generics.ListAPIView):
+	queryset = Card.objects.all()
+	serializer_class = CardSerializer
