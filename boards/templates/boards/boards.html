@@ -41,11 +41,10 @@
 			<div id="center"><h2>In Progress</h2>
 				{% for el in card %}
 				{% if el.status == 1 %}
-				<div class="list" draggable="true">
+				<li class="list" draggable="true">
 					<h3>{{el.task}}</h3>
 					<p>{{el.description}}</p>
-					
-				</div>
+				</li>
 				{% endif %}
 				{% endfor %}
 			

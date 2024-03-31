@@ -10,4 +10,4 @@ class Users(models.Model):
 		return self.name
 	
 	class Meta:
-		verbose_name = "Пользователи"
+		verbose_name = "user"

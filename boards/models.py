@@ -11,4 +11,4 @@ class Card(models.Model):
 		return self.task
 	
 	class Meta:
-		verbose_name = "Карточки"
+		verbose_name = "card"

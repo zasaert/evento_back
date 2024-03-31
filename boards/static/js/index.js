@@ -1,37 +1,95 @@
 let lists = document.getElementsByClassName('list')
-let rightBox = document.getElementById('right')
-let leftBox = document.getElementById('left')
-let centerBox = document.getElementById('center')
+let leftbox = document.getElementById('left')
+let centerbox = document.getElementById('center')
+let rightbox = document.getElementById('right')
+
+
 
 for (list of lists) {
 	list.addEventListener('dragstart', function (e) {
-		let selected = e.target
+	 let selected = e.target
 
-		rightBox.addEventListener('dragover', function (e) {
+		leftbox.addEventListener('dragover', function (e) {
 			e.preventDefault()
 		})
-		rightBox.addEventListener('drop', function (e) {
-			rightBox.appendChild(selected)
-			selected = null
-		})
 
-		leftBox.addEventListener('dragover', function (e) {
+		leftbox.addEventListener('drop', function (e) {
+			if(selected!=1){
+			rightbox.appendChild(selected)
+			}
+			let name = e.target.textContent
+			let status = 0
+			updateStatus(name,status)
+			selected = null
+
+		})
+		rightbox.addEventListener('dragover', function (e) {
 			e.preventDefault()
 		})
-		leftBox.addEventListener('drop', function (e) {
-			leftBox.appendChild(selected)
-			selected = null
-		})
 
-		centerBox.addEventListener('dragover', function (e) {
+		rightbox.addEventListener('drop', function (e) {
+			
+			if(selected!=1){
+			rightbox.appendChild(selected)
+			}
+			let status = 2
+			let name = selected.textContent
+			updateStatus(name,status)
+			selected = null
+			
+		})
+		centerbox.addEventListener('dragover', function (e) {
 			e.preventDefault()
 		})
-		centerBox.addEventListener('drop', function (e) {
-			centerBox.appendChild(selected)
+
+		centerbox.addEventListener('drop', function (e) {
+			if(selected!=1){
+			centerbox.appendChild(selected)
+			}
+			let status = 1
+			let name = selected.textContent
+			updateStatus(name,status)
 			selected = null
+			
 		})
 	})
 }
+function updateStatus(name, newStatus) { 
+	// Подключение к базе данных
+	const sqlite3 = require('sqlite3').verbose();
+	let db = new sqlite3.Database('../db.sqlite3', (err) => {
+	  if (err) {
+		console.error('Ошибка подключения к базе данных:', err.message);
+		return;
+	  }
+	  console.log('Подключено к базе данных.');
+	  // Подготовка запроса
+	  const stmt = db.prepare("UPDATE boards_card SET status = ? WHERE name = ?");
+  
+	  // Выполнение запроса
+	  stmt.run(newStatus, name, (err) => {
+		if (err) {
+		  console.error('Ошибка обновления статуса:', err.message);
+		} else {
+		  console.log(`Статус строки с name ${id} обновлен на ${newStatus}`);
+		}
+  
+		// Закрытие подготовленного запроса
+		stmt.finalize((err) => {
+		  if (err) {
+			console.error('Ошибка завершения запроса:', err.message);
+		  }
+		});
+	  });
+	});
+  
+	 db.close((err) => {
+	   if (err) {
+	     console.error('Ошибка закрытия соединения с базой данных:', err.message);
+	   } else {
+	    console.log('Соединение с базой данных закрыто.');
+	 }
+	 });
 
 function openPopup() {
 	var popup = document.getElementById('popup')
@@ -44,30 +102,7 @@ function closePopup() {
 	popup.style.display = 'none'
 }
 
-////////////////////////для левого столбца
+//для левого столбца
 let center_list = document.querySelectorAll('#center.list')
 console.log(center_list)
-/*
-function handleDrop(event) {
-	event.preventDefault()
-	var data = event.dataTransfer.getData('text')
-	var droppedElement = document.getElementById(data)
-	var container = event.target
-	container.appendChild(droppedElement)
-	// Собираем данные для сохранения в базе данных
-	var elementId = droppedElement.id
-	var newPosition = container.id
-	saveToDatabase(elementId, newPosition)
 }
-
-function saveToDatabase(elementId, newPosition) {
-	// Отправляем данные на сервер через AJAX запрос
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "/save_to_database/", true);
-	xhr.setRequestHeader("Content-Type", "application/json");
-	var data = JSON.stringify({
-			"element_id": elementId,
-			"new_position": newPosition
-	});
-	xhr.send(data);
-}*/
