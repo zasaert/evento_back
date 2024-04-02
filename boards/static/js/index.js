@@ -1,3 +1,4 @@
+
 let lists = document.getElementsByClassName('list')
 let leftbox = document.getElementById('left')
 let centerbox = document.getElementById('center')
@@ -19,6 +20,7 @@ for (list of lists) {
 			}
 			let name = e.target.textContent
 			let status = 0
+			console.log(name);
 			selected = null
 
 		})
@@ -32,7 +34,26 @@ for (list of lists) {
 			rightbox.appendChild(selected)
 			}
 			let status = 2
-			let name = selected.textContent
+			let id = selected.textContent.replace(/\D/g, '')
+			console.log(id);
+			$.ajax({
+				url: 'update_record/',
+				type: 'POST',
+				data: {
+					record_id: id, // ID записи, которую нужно обновить
+					new_value: status // Новое значение для обновления
+				},
+				success: function(response) {
+					if (response.success) {
+						console.log('Record updated successfully');
+					} else {
+						console.error('Error updating record: ' + response.error);
+					}
+				},
+				error: function() {
+					console.error('Error updating record');
+				}
+			});
 			selected = null
 			
 		})
@@ -41,12 +62,31 @@ for (list of lists) {
 		})
 
 		centerbox.addEventListener('drop', function (e) {
-			if(selected!=1){
+			if(selected!==1){
 			centerbox.appendChild(selected)
 			}
 			let status = 1
-			let name = selected.textContent
-			
+			let id = selected.textContent.replace(/\D/g, '')
+			console.log(id);
+			$.ajax({
+				url: 'update_record/',
+				type: 'POST',
+				data: {
+					record_id: id, // ID записи, которую нужно обновить
+					new_value: status, // Новое значение для обновления
+					'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+				},
+				success: function(response) {
+					if (response.success) {
+						console.log('Record updated successfully');
+					} else {
+						console.error('Error updating record: ' + response.error);
+					}
+				},
+				error: function() {
+					console.error('Error updating record');
+				}
+			});
 			selected = null
 			
 		})
@@ -67,3 +107,6 @@ function closePopup() {
 //для левого столбца
 let center_list = document.querySelectorAll('#center.list')
 console.log(center_list)
+
+
+
