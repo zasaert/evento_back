@@ -3,8 +3,11 @@ from .models import Card
 from .forms import CardForm
 from rest_framework import generics
 from .serializers import CardSerializer
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
+
 
 # Create your views here.
 def boards(request):
@@ -28,21 +31,23 @@ def boards(request):
 
 	return render(request,"boards/boards.html",data)
 
-@csrf_exempt
-def update_record(request):
-    if request.method == 'POST':
-        record_id = request.POST.get('id')
-        new_value = request.POST.get('status')
-        
+class UpdateRecordView(APIView):
+    def post(self, request):
+        record_id = request.data.get('record_id')
+        new_value = request.data.get('new_value')
+        print(record_id, " ", new_value)
         try:
             record = Card.objects.get(id=record_id)
             record.status = new_value
             record.save()
-            return JsonResponse({'success': True})
+            serializer = CardSerializer(record)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Card.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Record not found'})
-    else:
-        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+            return Response({'error': 'Record not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class CardViewSet(viewsets.ModelViewSet):
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
 
 class CardAPIView(generics.ListAPIView):
 	queryset = Card.objects.all()

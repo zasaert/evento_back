@@ -41,7 +41,8 @@ for (list of lists) {
 				type: 'POST',
 				data: {
 					record_id: id, // ID записи, которую нужно обновить
-					new_value: status // Новое значение для обновления
+					new_value: status, // Новое значение для обновления
+					'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
 				},
 				success: function(response) {
 					if (response.success) {
@@ -69,7 +70,7 @@ for (list of lists) {
 			let id = selected.textContent.replace(/\D/g, '')
 			console.log(id);
 			$.ajax({
-				url: '.update_record/',
+				url: 'update_record/',
 				type: 'POST',
 				data: {
 					record_id: id, // ID записи, которую нужно обновить
