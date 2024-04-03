@@ -7,6 +7,8 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -44,6 +46,17 @@ class UpdateRecordView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Card.DoesNotExist:
             return Response({'error': 'Record not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@csrf_exempt
+def delete_record(request, record_id):
+       try:
+         record = Card.objects.get(id=record_id)
+         record.delete()
+         return JsonResponse({'message': 'Record deleted successfully'}, status=200)
+       except Card.DoesNotExist:
+          return JsonResponse({'error': 'Record not found'}, status=404)
+      
+   
 
 class CardViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()

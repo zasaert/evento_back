@@ -90,9 +90,28 @@ for (list of lists) {
 			});
 			selected = null
 			
+			
 		})
 	})
 }
+
+
+function deleteRecord(recordId) {
+	$.ajax({
+		url: "delete_record/" + recordId,
+		type: "DELETE",
+		success: function(response) {
+		  // Обработка успешного ответа
+		  console.log(response);
+		  location.reload(); // Обновление страницы после удаления
+		},
+		error: function(error) {
+		  // Обработка ошибки
+		  console.log(error);
+		}
+	  });
+}
+
 
 function openPopup() {
 	var popup = document.getElementById('popup')

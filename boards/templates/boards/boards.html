@@ -42,11 +42,11 @@
 			<div id="center"><h2>In Progress</h2>
 				{% for el in card %}
 				{% if el.status == 1 %}
-				<li class="list" draggable="true">
-					<p >{{el.id}}</p>
+				<div class="list" draggable="true">
+					<h3>{{el.id}}</h3>
 					<h3>{{el.task}}</h3>
 					<p>{{el.description}}</p>
-				</li>
+				</div>
 				{% endif %}
 				{% endfor %}
 			
@@ -55,10 +55,10 @@
 				{% for el in card %}
 				{% if el.status == 2 %}
 				<div class="list" draggable="true">
-					<p >{{el.id}}</p>
+					<button onclick="deleteRecord({{ el.id }})">-</button>
+					<p>{{el.id}}</p>
 					<h3>{{el.task}}</h3>
-					<p>{{el.description}}</p>
-					
+					<p>{{el.description}}</p>					
 				</div>
 				{% endif %}
 				{% endfor %}
