@@ -69,7 +69,7 @@ for (list of lists) {
 			let id = selected.textContent.replace(/\D/g, '')
 			console.log(id);
 			$.ajax({
-				url: 'update_record/',
+				url: '.update_record/',
 				type: 'POST',
 				data: {
 					record_id: id, // ID записи, которую нужно обновить
