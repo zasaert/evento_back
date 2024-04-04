@@ -10,11 +10,12 @@
 
 			{% csrf_token %}
 			
-			{{LoginForm.as_p}}
+			{{loginform.as_p}}
 			
 			<input type="submit" value="Login"/>
 			
 			<a href="{% url 'boards' %}" <li>In</li></a>
+			<a href="{% url 'reg' %}" <li>Register</li></a>
 		</form>
 	</body>
 </html>

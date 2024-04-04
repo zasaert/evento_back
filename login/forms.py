@@ -8,7 +8,7 @@ from django.forms.widgets import PasswordInput, TextInput
 
 class CreateUserForm(UserCreationForm):
     class Meta:
-        nodel = User
+        model = User
         fields = ['username','password1','password2']
 
 class LoginForm(AuthenticationForm):
