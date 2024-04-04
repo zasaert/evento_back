@@ -58,6 +58,7 @@ def delete_record(request, record_id):
       
    
 
+
 class CardViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer

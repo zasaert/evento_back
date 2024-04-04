@@ -21,11 +21,9 @@ from boards.views import CardAPIView
 
 
 urlpatterns = [
-    path('', views.login, name='home'),
+    path('', views.homepage, name='home'),
 	path('admin/',admin.site.urls),
-    path('login/',views.login),
+    path('login/',include('login.urls')),
 	path('boards/',include('boards.urls')),
 	path('api/v1/list/',CardAPIView.as_view()),
-	
-	
 ]
