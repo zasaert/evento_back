@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 
 
 def homepage(request):
-	return render(request, 'login.html')
+	return render(request, 'homepage.html')
 
 def register(request):
 	form = CreateUserForm()
@@ -14,7 +14,7 @@ def register(request):
 		form = CreateUserForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect('login')
+			return redirect('log_in')
 
 	context = {'registerform': form }
 	return render(request, 'register.html', context)
@@ -35,4 +35,6 @@ def	log_in(request):
 			
 	context = {'loginform': form }
 	return render(request, 'login.html', context)
+
+
 
