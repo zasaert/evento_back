@@ -18,10 +18,29 @@ for (list of lists) {
 			if(selected!=1){
 			rightbox.appendChild(selected)
 			}
-			let name = e.target.textContent
+			let id = selected.textContent.replace(/\D/g, '')
 			let status = 0
-			console.log(name);
+			console.log(id);
 			selected = null
+			$.ajax({
+				url: 'update_record/',
+				type: 'POST',
+				data: {
+					record_id: id, // ID записи, которую нужно обновить
+					new_value: status, // Новое значение для обновления
+					'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+				},
+				success: function(response) {
+					if (response.success) {
+						console.log('Record updated successfully');
+					} else {
+						console.error('Error updating record: ' + response.error);
+					}
+				},
+				error: function() {
+					console.error('Error updating record');
+				}
+			});
 
 		})
 		rightbox.addEventListener('dragover', function (e) {
