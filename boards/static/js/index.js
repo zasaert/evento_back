@@ -21,7 +21,6 @@ for (list of lists) {
 			let id = selected.textContent.replace(/\D/g, '')
 			let status = 0
 			console.log(id);
-			selected = null
 			$.ajax({
 				url: 'update_record/',
 				type: 'POST',
@@ -41,7 +40,7 @@ for (list of lists) {
 					console.error('Error updating record');
 				}
 			});
-
+			selected = null
 		})
 		rightbox.addEventListener('dragover', function (e) {
 			e.preventDefault()
@@ -108,8 +107,6 @@ for (list of lists) {
 				}
 			});
 			selected = null
-			
-			
 		})
 	})
 }
